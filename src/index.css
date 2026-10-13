@@ -1,0 +1,150 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------
+   Tokens de marca INDUSTRIA B.J.B.
+   Vinotinto y bronce extraídos del logo original (#6B0F0E / #A8692A).
+------------------------------------------------------------------- */
+@theme {
+  --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
+  --font-sans: 'Manrope Variable', 'Manrope', ui-sans-serif, system-ui, sans-serif;
+
+  --color-wine-950: #240606;
+  --color-wine-900: #3a0a0a;
+  --color-wine-800: #520d0c;
+  --color-wine: #6b0f0e;
+  --color-wine-600: #84201c;
+
+  --color-bronze-700: #8e5520; /* texto bronce sobre claro (AA) */
+  --color-bronze-600: #9a5e24; /* botones con texto blanco (AA) */
+  --color-bronze: #a8692a; /* bronce del logo */
+  --color-bronze-300: #c9965c; /* texto bronce sobre oscuro */
+  --color-bronze-200: #dcbd94;
+
+  --color-ink: #141110; /* negro cálido */
+  --color-graphite: #1e1b19;
+  --color-graphite-700: #2b2724;
+  --color-graphite-500: #4a443f;
+  --color-stone: #6b625a; /* texto secundario sobre marfil (AA) */
+  --color-mist: #b9b0a6; /* texto secundario sobre oscuro */
+
+  --color-ivory: #f6f1e9;
+  --color-ivory-50: #fbf8f3;
+  --color-sand: #e6ddcf;
+
+  --ease-refined: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 84px;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-ivory font-sans text-graphite antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  ::selection {
+    background: var(--color-wine);
+    color: var(--color-ivory);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-bronze);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-12;
+  }
+  .eyebrow {
+    @apply text-[11px] font-semibold tracking-[0.24em] uppercase;
+  }
+  .rule {
+    @apply h-px w-full bg-current opacity-15;
+  }
+}
+
+/* Revelado suave al hacer scroll */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  transition:
+    opacity 1s var(--ease-refined),
+    transform 1s var(--ease-refined);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Imágenes con fundido al cargar */
+.img-fade {
+  opacity: 0;
+  transition: opacity 0.9s var(--ease-refined);
+}
+.img-fade.is-loaded {
+  opacity: 1;
+}
+
+@keyframes slow-zoom {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+.animate-slow-zoom {
+  animation: slow-zoom 9s var(--ease-refined) both;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal,
+  .img-fade {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .animate-slow-zoom {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
